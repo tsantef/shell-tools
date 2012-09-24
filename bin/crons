@@ -1,11 +1,17 @@
 #!/bin/sh
 
+jobsExist=0
+
 for user in $(cut -f1 -d: /etc/passwd); 
 do 
   result=$(crontab -u $user -l) > /dev/null 2>&1
-  if [ -n "${result}" ]; then 
+  if [ -n "${result}" ]; then
+    jobsExist=1 
     echo ==== $user ====
     echo "${result}"
   fi 
 done
 
+if [ $jobsExist != 1 ]; then
+  echo No user jobs found
+fi
