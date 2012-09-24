@@ -1,0 +1,11 @@
+#!/bin/sh
+
+for user in $(cut -f1 -d: /etc/passwd); 
+do 
+  result=$(crontab -u $user -l) > /dev/null 2>&1
+  if [ -n "${result}" ]; then 
+    echo ==== $user ====
+    echo "${result}"
+  fi 
+done
+
